@@ -37,6 +37,7 @@ class VehicleService:
 
         pollution_entry = PollutionEntry(pollution=pollution, timestamp=timestamp)
         self.pollution_log.add_entry(pollution_entry)
+        log.debug("Pollution log contains {} element(s)".format(self.pollution_log.get_size()))
 
     def get_vehicle_by_id(self, id_: int) -> Optional[Vehicle]:
         """
