@@ -9,7 +9,7 @@ class BaseConfig(object):
         # {'id': 1, 'name': 'Car', 'radius_wheel': 2.0, 'amount_magnets': 1, 'pollution_per_cm': 5.0},
         # {'id': 1, 'name': 'Bus', 'radius_wheel': 2.0, 'amount_magnets': 1, 'pollution_per_cm': 5.0},
         Vehicle(id_=1, name='Car', radius_wheel=2.0, amount_magnets=1, pollution_per_cm=5),
-        Vehicle(id_=1, name='Bus', radius_wheel=2.0, amount_magnets=1, pollution_per_cm=3)
+        Vehicle(id_=2, name='Bus', radius_wheel=2.0, amount_magnets=1, pollution_per_cm=3)
 
     ]
 

@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask
 
-from car_service.car_service import CarService
+from car_service.vehicle_service import VehicleService
 
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG,
 app.config.from_object('config.DevelopmentConfig')
 
 with app.app_context():
-    car_service = CarService()
+    car_service = VehicleService()
 
 
 @app.route('/')

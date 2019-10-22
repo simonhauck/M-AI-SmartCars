@@ -25,5 +25,9 @@ class Vehicle(object):
         """
         wheel_circumference = math.pi * 2 * self.radius_wheel
         travelled_distance_per_tick = wheel_circumference / self.amount_magnets
-        pollution = travelled_distance_per_tick * self.pollution_per_cm * ticks
+        pollution = travelled_distance_per_tick * self.pollution_per_cm * float(ticks)
         return pollution
+
+    def __str__(self) -> str:
+        return "(id: {}, name: {}, radius_wheel: {}, amount_magnets: {}, pollution_per_cm: {})". \
+            format(self.id_, self.name, self.radius_wheel, self.amount_magnets, self.pollution_per_cm)
