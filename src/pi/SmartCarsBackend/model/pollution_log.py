@@ -20,8 +20,10 @@ class PollutionLog:
         self.time_to_delete = time_to_delete
         pollution_list: List[PollutionEntry] = []
         self.log = pollution_list
+        self.total_amount = 0
 
-    def __clean_list(self) -> None:
+
+    def clean_list(self) -> None:
         """
         Clean the list from entry's that are to old
         :return: None
@@ -38,9 +40,23 @@ class PollutionLog:
         :return: None
         """
         self.log.append(pollution_entry)
+        self.total_amount += 1
 
     def get_size(self) -> int:
         """
         :return: the length of the log
         """
         return len(self.log)
+
+    def sum_pollution(self) -> float:
+        """
+        Calculate the sum of the pollution
+        :return: the sum of all entry's
+        """
+        return sum(entry.pollution for entry in self.log)
+
+    def get_total_amount(self) -> int:
+        """
+        :return: the total amount of entries written in the log
+        """
+        return self.total_amount

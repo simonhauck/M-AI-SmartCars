@@ -14,6 +14,8 @@ class BaseConfig(object):
 
     HARDWARE_LOOP_SLEEP = 0.1
 
+    POLLUTION_LOG_DELAY = 10
+
 
 
 

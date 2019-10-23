@@ -13,7 +13,8 @@ log = logging.getLogger('car_service')
 class VehicleService:
 
     def __init__(self) -> None:
-        self.pollution_log = PollutionLog()
+        pollution_log_delay = current_app.config['POLLUTION_LOG_DELAY']
+        self.pollution_log = PollutionLog(pollution_log_delay)
 
         # self.available_vehicles = vehicle_list
         self.available_vehicles = current_app.config['AVAILABLE_VEHICLES']
@@ -49,3 +50,20 @@ class VehicleService:
             if vehicle.id_ == id_:
                 return vehicle
         return None
+
+    def clean_log(self) -> None:
+        """Clean the pollution log"""
+        self.pollution_log.clean_list()
+
+    def sum_pollution(self) -> float:
+        """
+        Calculate the sum of the pollution
+        :return: the sum of the pollution
+        """
+        return self.pollution_log.sum_pollution()
+
+    def total_amount_entries_log(self) -> int:
+        """
+        :return: the total amount of entries in the pollution log
+        """
+        return self.pollution_log.total_amount

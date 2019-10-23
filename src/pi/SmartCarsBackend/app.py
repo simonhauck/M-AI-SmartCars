@@ -19,8 +19,20 @@ with app.app_context():
 
 def loop() -> None:
     """Specifies the functionality that should be run in a loop"""
+
+    # Clean the log with a thread lock
+    thread_lock = threading.Lock()
+
+    thread_lock.acquire()
+    car_service.clean_log()
+    thread_lock.release()
+
+    current_pollution = car_service.sum_pollution()
+    total_amount_entries = car_service.total_amount_entries_log()
+    app.logger.debug("Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
+
     # TODO Add hardware and clean log
-    app.logger.info("Add here hardware functionality")
+    # app.logger.info("Add here hardware functionality")
 
 
 @app.before_first_request
@@ -31,7 +43,6 @@ def activate_job():
 
     def run_job():
         while True:
-            app.logger.debug("Calling Hardware loop")
             loop()
             sleep(0.1)
 
