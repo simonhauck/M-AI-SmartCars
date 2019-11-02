@@ -1,21 +1,29 @@
 // Low Power library that is currently not working properly
 //#include <ArduinoLowPower.h>
 #include <WiFiNINA.h>
+#include <ArduinoJson.h>
 
 //----------------------------------------------------------------------------------------------------------------------
-// Pins
+// Config
 //----------------------------------------------------------------------------------------------------------------------
 
+//Pins
 const int ledPin = 7;
 const int hallSensorPin = 6;
 
-//----------------------------------------------------------------------------------------------------------------------
-// Wlan Config
-//----------------------------------------------------------------------------------------------------------------------
-
 //Network ssid and password
-char ssid[] = "RaspberryWlan";
-char pass[] = "raspi1234";
+const char ssid[] = "RaspberryWlan";
+const char pass[] = "raspi1234";
+
+//Vehicle type
+// 1 - Car
+// 2 - Bus
+const byte vehicleType = 1;
+
+//Backend ip
+const char backendIp[] = "192.168.4.1";
+const unsigned int backendPort = 5000;
+const unsigned int messageDelay = 1000;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Variables
@@ -24,7 +32,11 @@ char pass[] = "raspi1234";
 //Wlan module status
 int status = WL_IDLE_STATUS;
 
-volatile int hallSensorTicks = 0;
+//Sensor ticks
+volatile unsigned int hallSensorTicks = 0;
+
+//Json Generator. Size calculated with: https://arduinojson.org/v6/assistant/
+StaticJsonDocument<38> doc;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Setup, Loop, Interrupts
@@ -60,9 +72,44 @@ void setup() {
 
 
 void loop() {
-    Serial.print(F("Total amount of ticks: "));
+    delay(messageDelay);
+    bool cancelExecution = false;
+
+    unsigned long startTime = millis();
+
+    Serial.println(F("--------------------------------------------------"));
+    Serial.print(F("Amount of ticks: "));
     Serial.println(hallSensorTicks);
-    delay(1000);
+
+    //Store the value and remove the amount from the variable
+    unsigned int tmpAmountTicks = hallSensorTicks;
+    hallSensorTicks -= tmpAmountTicks;
+
+    //If no ticks occurred, stop execution
+    if (tmpAmountTicks == 0) {
+        Serial.println(F("No hall sensor ticks registered."));
+        cancelExecution = true;
+    }
+
+    //Check the connection state
+    if (!cancelExecution && connectToWifi()) {
+        Serial.println(F("New Connection established. Reset values."));
+        hallSensorTicks = 0;
+        cancelExecution = true;
+    }
+
+    //TODO change to !cancleExecution
+    if (true) {
+        buildJson(vehicleType, tmpAmountTicks);
+        Serial.print(F("Generated Json: "));
+        serializeJson(doc, Serial);
+        Serial.println();
+    }
+
+    unsigned long endTime = millis();
+    Serial.print("Loop execution time (ms): ");
+    Serial.println(endTime - startTime);
+
 }
 
 void hallSensorInterrupt() {
@@ -123,6 +170,9 @@ bool connectToWifi() {
     return connectionRequired;
 }
 
+/**
+ * print the network information
+ */
 void printNetworkInformation() {
     // print your board's IP address:
     Serial.println();
@@ -150,4 +200,18 @@ void printNetworkInformation() {
     Serial.println(F("------------------------------------"));
     Serial.println();
 }
+
+/**
+ * add the json values in the json document
+ * @param id of the vehicle type
+ * @param hallSensorTicks the amount of hall sensor ticks
+ */
+void buildJson(int id, int hallSensorTicks) {
+    doc["id"] = id;
+    doc["th"] = hallSensorTicks;
+}
+
+
+
+
 
