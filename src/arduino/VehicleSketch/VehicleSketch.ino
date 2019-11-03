@@ -1,5 +1,5 @@
 // Low Power library that is currently not working properly
-//#include <ArduinoLowPower.h>
+#include <ArduinoLowPower.h>
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
 
@@ -8,7 +8,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 //Pins
-const int ledPin = 7;
+const int ledPin1 = 2;
+const int ledPin2 = 3;
 const int hallSensorPin = 6;
 
 //Network ssid and password
@@ -32,6 +33,8 @@ const unsigned int messageDelay = 1000;
 //Wlan module status
 int status = WL_IDLE_STATUS;
 
+WiFiClient client;
+
 //Sensor ticks
 volatile unsigned int hallSensorTicks = 0;
 
@@ -45,15 +48,14 @@ StaticJsonDocument<38> doc;
 void setup() {
     //Initialize Serial
     Serial.begin(9600);
-
     //Wait for Serial
     while (!Serial) {}
-
     Serial.println(F("Serial is initialized."));
 
     //Set the led pinMode
     Serial.println(F("Initializing pinModes..."));
-    pinMode(ledPin, OUTPUT);
+    pinMode(ledPin1, OUTPUT);
+    pinMode(ledPin2, OUTPUT);
     pinMode(hallSensorPin, INPUT);
     Serial.println(F("PinModes initialized."));
 
@@ -64,6 +66,11 @@ void setup() {
     //Connect to wifi
     connectToWifi();
     printNetworkInformation();
+
+    turnOnLeds(true);
+    Serial.println("Setup completed. Continue by activating the hall sensor...");
+    while (digitalRead(hallSensorPin) == HIGH) {};
+    Serial.println("Hall sensor activated. Starting loop");
 
     //Attach Interrupt
     attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
@@ -104,6 +111,8 @@ void loop() {
         Serial.print(F("Generated Json: "));
         serializeJson(doc, Serial);
         Serial.println();
+
+        postSensorData(tmpAmountTicks);
     }
 
     unsigned long endTime = millis();
@@ -119,6 +128,36 @@ void hallSensorInterrupt() {
 //----------------------------------------------------------------------------------------------------------------------
 // Private methods
 //----------------------------------------------------------------------------------------------------------------------
+
+/**
+ * toggle the leds alternately
+ * @param state the state of the led
+ * @return the toggled state
+ */
+bool toggleLedsAlternately(bool state) {
+    if (state) {
+        digitalWrite(ledPin1, LOW);
+        digitalWrite(ledPin2, HIGH);
+    } else {
+        digitalWrite(ledPin1, HIGH);
+        digitalWrite(ledPin2, LOW);
+    }
+    return !state;
+}
+
+/**
+ * turn both leds on or off
+ * @param state true if the leds should be turned on
+ */
+void turnOnLeds(bool state) {
+    if (state) {
+        digitalWrite(ledPin1, HIGH);
+        digitalWrite(ledPin2, HIGH);
+    } else {
+        digitalWrite(ledPin1, LOW);
+        digitalWrite(ledPin2, LOW);
+    }
+}
 
 /**
  * check and print the status of the wifi module.
@@ -158,8 +197,13 @@ bool connectToWifi() {
         Serial.print(F("Attempting to connect to WPA SSID: "));
         Serial.println(ssid);
         status = WiFi.begin(ssid, pass);
-        // wait 10 seconds for connection:
-        delay(10000);
+
+        // wait 10 seconds for connection and toggle led
+        bool ledState = false;
+        for (int i = 0; i < 20; i++) {
+            ledState = toggleLedsAlternately(ledState);
+            delay(500);
+        }
     }
 
     //Print statement only if the connection is new
@@ -209,6 +253,43 @@ void printNetworkInformation() {
 void buildJson(int id, int hallSensorTicks) {
     doc["id"] = id;
     doc["th"] = hallSensorTicks;
+}
+
+bool postSensorData(int hallSensorTicks) {
+    client.stop();
+
+    Serial.println(F("Client is NOT connected. Start new connection..."));
+    if (client.connect(backendIp, backendPort)) {
+        Serial.println(F("Connected to server"));
+
+        client.println("POST /vehicle HTTP/1.1");
+        client.print("Host: ");
+        client.println(backendIp);
+        client.println("Connection: close");
+        client.println();
+
+        Serial.println(F("Data sent to server"));
+        return true;
+    } else {
+        Serial.println(F("Connection to server failed. Aborting!"));
+        return false;
+    }
+
+
+    if (!client.connected()) {
+        Serial.println(F("Client is NOT connected. Start new connection..."));
+        client.stop();
+
+        if (client.connect(backendIp, backendPort)) {
+            Serial.println(F("Connected to server"));
+        } else {
+            Serial.println(F("Connection to server failed. Aborting!"));
+            return false;
+        }
+    }
+
+
+    return true;
 }
 
 
