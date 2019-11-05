@@ -7,6 +7,10 @@
 // Config
 //----------------------------------------------------------------------------------------------------------------------
 
+//True if usb is connected. If not Serial must be disabled
+//This can be done manually or automatically in the code
+bool useSerial = true;
+
 //Pins
 const int ledPin1 = 2;
 const int ledPin2 = 3;
@@ -46,18 +50,13 @@ StaticJsonDocument<38> doc;
 //----------------------------------------------------------------------------------------------------------------------
 
 void setup() {
-    //Initialize Serial
-    Serial.begin(9600);
-    //Wait for Serial
-    while (!Serial) {}
-    Serial.println(F("Serial is initialized."));
-
     //Set the led pinMode
-    Serial.println(F("Initializing pinModes..."));
     pinMode(ledPin1, OUTPUT);
     pinMode(ledPin2, OUTPUT);
     pinMode(hallSensorPin, INPUT);
-    Serial.println(F("PinModes initialized."));
+
+    //Initialize Serial
+    useSerial = initializeSerial(useSerial, 2500);
 
     if (!checkWifi()) {
         while (true) {};
@@ -130,6 +129,64 @@ void hallSensorInterrupt() {
 //----------------------------------------------------------------------------------------------------------------------
 
 /**
+ * initialize the serial. If no usb connection is made, the process will terminate after the given delay.
+ * @param initSerial true if the serial monitor should be initialized. If the value is false, the process will be skipped
+ * @param maxDelay the max time in millis to wait for the serial
+ * @return true if serial was initialized and can be used
+ */
+bool initializeSerial(bool initSerial, unsigned long maxDelay) {
+    // If useSerial is false, dont initialize Serial
+    if (!initSerial) {
+        blinkLeds(3, 500);
+        return false;
+    }
+
+    Serial.begin(9600);
+    unsigned long startTime = millis();
+    bool toggleLedState = true;
+
+    while (!Serial) {
+        if (millis() >= startTime + maxDelay) {
+            Serial.end();
+            break;
+        }
+
+        toggleLedState = toggleLedsAlternately(toggleLedState);
+        delay(500);
+    }
+
+    //If Serial should be used blink slow 2 times, if not 3 times fast
+    if (Serial) {
+        Serial.println(F("Serial is initialized."));
+        blinkLeds(3, 1000);
+        return true;
+    } else {
+        blinkLeds(6, 500);
+        return false;
+    }
+}
+
+/**
+ * print the given char array to the serial monitor if the serial is initialized
+ * @param printString the char array that should be printed
+ */
+void println(char printString[]) {
+    if (useSerial) {
+        Serial.println(F(printString));
+    }
+}
+
+/**
+ * print the given char array to the serial monitor if the serial is initialized
+ * @param printString the char array that should be printed
+ */
+void print(char printString[]) {
+    if (useSerial) {
+        Serial.print(F(printString));
+    }
+}
+
+/**
  * toggle the leds alternately
  * @param state the state of the led
  * @return the toggled state
@@ -148,14 +205,28 @@ bool toggleLedsAlternately(bool state) {
 /**
  * turn both leds on or off
  * @param state true if the leds should be turned on
+ * @return the inverted state !state
  */
-void turnOnLeds(bool state) {
+bool turnOnLeds(bool state) {
     if (state) {
         digitalWrite(ledPin1, HIGH);
         digitalWrite(ledPin2, HIGH);
     } else {
         digitalWrite(ledPin1, LOW);
         digitalWrite(ledPin2, LOW);
+    }
+    return !state;
+}
+
+/**
+ * blink both leds the given amount of time with the given interval
+ * @param amountBlinks the amount how often both leds blink
+ * @param interval the time where the leds are on and off
+ */
+void blinkLeds(int amountBlinks, unsigned int interval) {
+    for (int i = 0; i < amountBlinks * 2; i++) {
+        turnOnLeds(i % 2 == 0);
+        delay(interval);
     }
 }
 
@@ -209,6 +280,7 @@ bool connectToWifi() {
     //Print statement only if the connection is new
     if (connectionRequired) {
         Serial.println(F("Connection established."));
+        blinkLeds(1, 1000);
     }
 
     return connectionRequired;
@@ -274,22 +346,6 @@ bool postSensorData(int hallSensorTicks) {
         Serial.println(F("Connection to server failed. Aborting!"));
         return false;
     }
-
-
-    if (!client.connected()) {
-        Serial.println(F("Client is NOT connected. Start new connection..."));
-        client.stop();
-
-        if (client.connect(backendIp, backendPort)) {
-            Serial.println(F("Connected to server"));
-        } else {
-            Serial.println(F("Connection to server failed. Aborting!"));
-            return false;
-        }
-    }
-
-
-    return true;
 }
 
 
