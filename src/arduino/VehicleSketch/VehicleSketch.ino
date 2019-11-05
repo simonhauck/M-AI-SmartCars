@@ -113,7 +113,7 @@ void loop() {
     }
 
     //TODO change to !cancleExecution
-    if (true) {
+    if (!cancelExecution) {
         buildJson(vehicleType, tmpAmountTicks);
         PRINTF("Generated Json: ");
         if (useSerial) {
@@ -121,7 +121,7 @@ void loop() {
         }
         PRINTLN();
 
-        postSensorData(tmpAmountTicks);
+        postSensorData();
     }
 
     unsigned long endTime = millis();
@@ -317,7 +317,7 @@ void buildJson(int id, int hallSensorTicks) {
     doc["th"] = hallSensorTicks;
 }
 
-bool postSensorData(int hallSensorTicks) {
+bool postSensorData() {
     client.stop();
 
     PRINTLNF("Client is NOT connected. Start new connection...");
@@ -328,6 +328,11 @@ bool postSensorData(int hallSensorTicks) {
         client.print("Host: ");
         client.println(backendIp);
         client.println("Connection: close");
+        client.println("Content-Type: application/json");
+        client.print("Content-Length:");
+        client.println(measureJson(doc));
+        client.println();
+        serializeJson(doc, client);
         client.println();
 
         PRINTLNF("Data sent to server");
