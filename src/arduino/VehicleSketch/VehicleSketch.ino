@@ -3,6 +3,14 @@
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
 
+//bool useSerial = false;
+
+#define PRINTLN(...)  {if(useSerial) {Serial.println(__VA_ARGS__);}};
+#define PRINTLNF(...)  {if(useSerial) {Serial.println(F(__VA_ARGS__));}};
+#define PRINT(...)  {if(useSerial) {Serial.print(__VA_ARGS__);}};
+#define PRINTF(...)  {if(useSerial) {Serial.print(F(__VA_ARGS__));}};
+
+
 //----------------------------------------------------------------------------------------------------------------------
 // Config
 //----------------------------------------------------------------------------------------------------------------------
@@ -67,9 +75,9 @@ void setup() {
     printNetworkInformation();
 
     turnOnLeds(true);
-    Serial.println("Setup completed. Continue by activating the hall sensor...");
+    PRINTLNF("Setup completed. Continue by activating the hall sensor...");
     while (digitalRead(hallSensorPin) == HIGH) {};
-    Serial.println("Hall sensor activated. Starting loop");
+    PRINTLNF("Hall sensor activated. Starting loop");
 
     //Attach Interrupt
     attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
@@ -83,9 +91,9 @@ void loop() {
 
     unsigned long startTime = millis();
 
-    Serial.println(F("--------------------------------------------------"));
-    Serial.print(F("Amount of ticks: "));
-    Serial.println(hallSensorTicks);
+    PRINTLNF("--------------------------------------------------");
+    PRINTF("Amount of ticks: ");
+    PRINTLN(hallSensorTicks);
 
     //Store the value and remove the amount from the variable
     unsigned int tmpAmountTicks = hallSensorTicks;
@@ -93,13 +101,13 @@ void loop() {
 
     //If no ticks occurred, stop execution
     if (tmpAmountTicks == 0) {
-        Serial.println(F("No hall sensor ticks registered."));
+        PRINTLNF("No hall sensor ticks registered.");
         cancelExecution = true;
     }
 
     //Check the connection state
     if (!cancelExecution && connectToWifi()) {
-        Serial.println(F("New Connection established. Reset values."));
+        PRINTLNF("New Connection established. Reset values.");
         hallSensorTicks = 0;
         cancelExecution = true;
     }
@@ -107,16 +115,18 @@ void loop() {
     //TODO change to !cancleExecution
     if (true) {
         buildJson(vehicleType, tmpAmountTicks);
-        Serial.print(F("Generated Json: "));
-        serializeJson(doc, Serial);
-        Serial.println();
+        PRINTF("Generated Json: ");
+        if (useSerial) {
+            serializeJson(doc, Serial);
+        }
+        PRINTLN();
 
         postSensorData(tmpAmountTicks);
     }
 
     unsigned long endTime = millis();
-    Serial.print("Loop execution time (ms): ");
-    Serial.println(endTime - startTime);
+    PRINTF("Loop execution time (ms): ");
+    PRINTLN(endTime - startTime);
 
 }
 
@@ -137,7 +147,7 @@ void hallSensorInterrupt() {
 bool initializeSerial(bool initSerial, unsigned long maxDelay) {
     // If useSerial is false, dont initialize Serial
     if (!initSerial) {
-        blinkLeds(3, 500);
+        blinkLeds(10, 100);
         return false;
     }
 
@@ -155,34 +165,14 @@ bool initializeSerial(bool initSerial, unsigned long maxDelay) {
         delay(500);
     }
 
-    //If Serial should be used blink slow 2 times, if not 3 times fast
+    //If Serial should be used blink slow 3 times, if not 10 times fast
     if (Serial) {
-        Serial.println(F("Serial is initialized."));
+        PRINTLNF("Serial is initialized.");
         blinkLeds(3, 1000);
         return true;
     } else {
-        blinkLeds(6, 500);
+        blinkLeds(10, 100);
         return false;
-    }
-}
-
-/**
- * print the given char array to the serial monitor if the serial is initialized
- * @param printString the char array that should be printed
- */
-void println(char printString[]) {
-    if (useSerial) {
-        Serial.println(F(printString));
-    }
-}
-
-/**
- * print the given char array to the serial monitor if the serial is initialized
- * @param printString the char array that should be printed
- */
-void print(char printString[]) {
-    if (useSerial) {
-        Serial.print(F(printString));
     }
 }
 
@@ -236,18 +226,18 @@ void blinkLeds(int amountBlinks, unsigned int interval) {
  */
 bool checkWifi() {
     //Check if Wifi module exists
-    Serial.println(F("Check status of wifi module..."));
+    PRINTLNF("Check status of wifi module...");
     if (WiFi.status() == WL_NO_MODULE) {
-        Serial.println(F("Communication with WiFi module failed! Execution is stopped!"));
+        PRINTLNF("Communication with WiFi module failed! Execution is stopped!");
         return false;
     } else {
-        Serial.println(F("Wifi module found."));
+        PRINTLNF("Wifi module found.");
     }
 
     //Check firmware version
     String fv = WiFi.firmwareVersion();
     if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-        Serial.println(F("Please upgrade the firmware"));
+        PRINTLNF("Please upgrade the firmware");
     }
 
     return true;
@@ -265,8 +255,8 @@ bool connectToWifi() {
     status = WiFi.status();
     while (status != WL_CONNECTED) {
         connectionRequired = true;
-        Serial.print(F("Attempting to connect to WPA SSID: "));
-        Serial.println(ssid);
+        PRINTF("Attempting to connect to WPA SSID: ");
+        PRINTLN(ssid);
         status = WiFi.begin(ssid, pass);
 
         // wait 10 seconds for connection and toggle led
@@ -279,7 +269,7 @@ bool connectToWifi() {
 
     //Print statement only if the connection is new
     if (connectionRequired) {
-        Serial.println(F("Connection established."));
+        PRINTLNF("Connection established.");
         blinkLeds(1, 1000);
     }
 
@@ -291,30 +281,30 @@ bool connectToWifi() {
  */
 void printNetworkInformation() {
     // print your board's IP address:
-    Serial.println();
-    Serial.println(F("--- Wifi und Network Information ---"));
+    PRINTLN()
+    PRINTLNF("--- Wifi und Network Information ---");
 
     // print the SSID of the network you're attached to:
-    Serial.print(F("SSID: "));
-    Serial.println(WiFi.SSID());
+    PRINTF("SSID: ");
+    PRINTLN(WiFi.SSID());
 
     // print the received signal strength:
     long rssi = WiFi.RSSI();
-    Serial.print(F("Signal strength (RSSI):"));
-    Serial.println(rssi);
+    PRINTF("Signal strength (RSSI):");
+    PRINTLN(rssi);
 
     // print the encryption type:
     byte encryption = WiFi.encryptionType();
-    Serial.print(F("Encryption Type:"));
-    Serial.println(encryption, HEX);
-    Serial.println();
+    PRINTF("Encryption Type:");
+    PRINTLN(encryption, HEX);
+    PRINTLN();
 
     IPAddress ip = WiFi.localIP();
-    Serial.print(F("IP Address: "));
-    Serial.println(ip);
+    PRINTF("IP Address: ");
+    PRINTLN(ip);
 
-    Serial.println(F("------------------------------------"));
-    Serial.println();
+    PRINTLNF("------------------------------------");
+    PRINTLN();
 }
 
 /**
@@ -330,9 +320,9 @@ void buildJson(int id, int hallSensorTicks) {
 bool postSensorData(int hallSensorTicks) {
     client.stop();
 
-    Serial.println(F("Client is NOT connected. Start new connection..."));
+    PRINTLNF("Client is NOT connected. Start new connection...");
     if (client.connect(backendIp, backendPort)) {
-        Serial.println(F("Connected to server"));
+        PRINTLNF("Connected to server");
 
         client.println("POST /vehicle HTTP/1.1");
         client.print("Host: ");
@@ -340,10 +330,10 @@ bool postSensorData(int hallSensorTicks) {
         client.println("Connection: close");
         client.println();
 
-        Serial.println(F("Data sent to server"));
+        PRINTLNF("Data sent to server");
         return true;
     } else {
-        Serial.println(F("Connection to server failed. Aborting!"));
+        PRINTLNF("Connection to server failed. Aborting!");
         return false;
     }
 }
