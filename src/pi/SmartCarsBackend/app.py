@@ -30,7 +30,7 @@ def loop() -> None:
 
     current_pollution = car_service.sum_pollution()
     total_amount_entries = car_service.total_amount_entries_log()
-    # app.logger.debug("Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
+    app.logger.debug("Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
 
     # TODO Add hardware and clean log
     # app.logger.info("Add here hardware functionality")
