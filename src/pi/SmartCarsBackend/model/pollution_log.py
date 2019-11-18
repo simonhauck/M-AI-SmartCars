@@ -22,7 +22,6 @@ class PollutionLog:
         self.log = pollution_list
         self.total_amount = 0
 
-
     def clean_list(self) -> None:
         """
         Clean the list from entry's that are to old

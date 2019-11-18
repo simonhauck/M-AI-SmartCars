@@ -1,11 +1,11 @@
 import logging
 import threading
-import json
 from time import sleep
 
 from flask import Flask, request
 
 from car_service.vehicle_service import VehicleService
+from hardware.led_stripe import LedStripe
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ app.config.from_object('config.DevelopmentConfig')
 
 with app.app_context():
     car_service = VehicleService()
+    led_stripe = LedStripe()
 
 
 def loop() -> None:
@@ -30,7 +31,10 @@ def loop() -> None:
 
     current_pollution = car_service.sum_pollution()
     total_amount_entries = car_service.total_amount_entries_log()
-    app.logger.debug("Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
+    app.logger.debug(
+        "Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
+
+    led_stripe.set_led_stripe(current_pollution)
 
     # TODO Add hardware and clean log
     # app.logger.info("Add here hardware functionality")
@@ -59,7 +63,12 @@ def hello_world():
 
 @app.route('/vehicle', methods=['POST'])
 def vehicle_tick():
-    json_body = request.json
+    json_body = request.get_json(force=True)
+
+    if json_body is None:
+        app.logger.warn("Api Request without body! Cancel request")
+        return
+
     vehicle_id = json_body.get('id', 1)
     amount_ticks = json_body.get('th', 1)
     app.logger.debug("Vehicle Tick Body: id={}, ticks={}".format(vehicle_id, amount_ticks))

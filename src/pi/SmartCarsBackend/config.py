@@ -1,6 +1,8 @@
-from model.vehicle import Vehicle
 import board
 import neopixel
+
+from model.vehicle import Vehicle
+
 
 class BaseConfig(object):
     DEBUG = False
@@ -14,8 +16,7 @@ class BaseConfig(object):
     POLLUTION_LOG_DELAY = 10
 
     # Pollution Min Max Values
-    AMOUNT_POLLUTION_GRADES = 100
-    MIN_POLLUTION = 0
+    MIN_POLLUTION = 100
     MAX_POLLUTION = 1000
 
     # Hardware
@@ -23,7 +24,7 @@ class BaseConfig(object):
     LED_STRIPE_PIN = board.D18
     LED_STRIPE_ORDER = neopixel.GRB
     LED_STRIPE_SIZE = 60
-
+    LED_STRIPE_MODE = 0
 
 
 class DevelopmentConfig(BaseConfig):
