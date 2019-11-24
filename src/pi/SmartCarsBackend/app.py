@@ -31,8 +31,8 @@ def loop() -> None:
 
     current_pollution = car_service.sum_pollution()
     total_amount_entries = car_service.total_amount_entries_log()
-    app.logger.debug(
-        "Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
+    # app.logger.debug(
+    #     "Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
 
     led_stripe.set_led_stripe(current_pollution)
 

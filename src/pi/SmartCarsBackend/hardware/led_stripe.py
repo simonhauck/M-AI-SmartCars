@@ -33,6 +33,6 @@ class LedStripe:
                                                              255,
                                                              self.max_pollution,
                                                              self.min_pollution)
-        logging.info("Led Stripe Relative Pollution: {}".format(relative_pollution))
+        # logging.info("Led Stripe Relative Pollution: {}".format(relative_pollution))
         self.pixels.fill((relative_pollution, 255 - relative_pollution, 0))
         self.pixels.show()

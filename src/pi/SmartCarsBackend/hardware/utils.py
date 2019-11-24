@@ -14,7 +14,7 @@ def calculate_pollution_grade(current_pollution: float, pollution_grades: int, m
     if absolute_effective_pollution > max_pollution:
         # Max Pollution
         return pollution_grades
-    elif current_pollution <= 0:
+    elif absolute_effective_pollution <= 0:
         # Min Pollution
         return 0
     else:
