@@ -1,9 +1,5 @@
-// Low Power library that is currently not working properly
-#include <ArduinoLowPower.h>
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
-
-//bool useSerial = false;
 
 #define PRINTLN(...)  {if(useSerial) {Serial.println(__VA_ARGS__);}};
 #define PRINTLNF(...)  {if(useSerial) {Serial.println(F(__VA_ARGS__));}};
@@ -36,7 +32,7 @@ const byte vehicleType = 1;
 //Backend ip
 const char backendIp[] = "192.168.4.1";
 const unsigned int backendPort = 5000;
-const unsigned int messageDelay = 1000;
+const unsigned long messageDelay = 1000;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Variables
@@ -66,6 +62,10 @@ void setup() {
     //Initialize Serial
     useSerial = initializeSerial(useSerial, 2500);
 
+    //Attach Interrupt
+    PRINTLNF("Attaching Interrupts.");
+    attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
+
     if (!checkWifi()) {
         while (true) {};
     }
@@ -76,14 +76,10 @@ void setup() {
 
     turnOnLeds(true);
     PRINTLNF("Setup completed. Continue by activating the hall sensor...");
-    while (digitalRead(hallSensorPin) == HIGH) {};
+    while (hallSensorTicks == 0) {};
     PRINTLNF("Hall sensor activated. Starting loop");
 
-    //Attach Interrupt
-    attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
-//    LowPower.attachInterruptWakeup(hallSensorPin, hallSensorInterrupt, CHANGE);
 }
-
 
 void loop() {
     delay(messageDelay);
@@ -112,7 +108,7 @@ void loop() {
         cancelExecution = true;
     }
 
-    //TODO change to !cancleExecution
+    //TODO change to !cancelExecution
     if (!cancelExecution) {
         buildJson(vehicleType, tmpAmountTicks);
         PRINTF("Generated Json: ");
@@ -317,10 +313,13 @@ void buildJson(int id, int hallSensorTicks) {
     doc["th"] = hallSensorTicks;
 }
 
+/**
+ * Post the hall sensor data to the server
+ * @return true if the data was sent successfully
+ */
 bool postSensorData() {
     client.stop();
 
-    PRINTLNF("Client is NOT connected. Start new connection...");
     if (client.connect(backendIp, backendPort)) {
         PRINTLNF("Connected to server");
 
@@ -342,6 +341,8 @@ bool postSensorData() {
         return false;
     }
 }
+
+
 
 
 
