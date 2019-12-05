@@ -62,10 +62,6 @@ void setup() {
     //Initialize Serial
     useSerial = initializeSerial(useSerial, 2500);
 
-    //Attach Interrupt
-    PRINTLNF("Attaching Interrupts.");
-    attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
-
     if (!checkWifi()) {
         while (true) {};
     }
@@ -76,9 +72,16 @@ void setup() {
 
     turnOnLeds(true);
     PRINTLNF("Setup completed. Continue by activating the hall sensor...");
-    while (hallSensorTicks == 0) {};
-    PRINTLNF("Hall sensor activated. Starting loop");
+    while (digitalRead(hallSensorPin) == HIGH) {
+        delay(1);
+    };
+    PRINTLNF("Hall sensor activated.");
 
+    //Attach Interrupt
+    PRINTLNF("Attaching Interrupts.");
+    attachInterrupt(digitalPinToInterrupt(hallSensorPin), hallSensorInterrupt, FALLING);
+
+    PRINTLNF("Starting Loop...");
 }
 
 void loop() {
