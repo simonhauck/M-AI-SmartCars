@@ -85,6 +85,7 @@ void setup() {
 }
 
 void loop() {
+    turnOnLeds(true);
     delay(messageDelay);
     bool cancelExecution = false;
 
@@ -109,6 +110,7 @@ void loop() {
         PRINTLNF("New Connection established. Reset values.");
         hallSensorTicks = 0;
         cancelExecution = true;
+        turnOnLeds(true);
     }
 
     //TODO change to !cancelExecution
@@ -341,6 +343,7 @@ bool postSensorData() {
         return true;
     } else {
         PRINTLNF("Connection to server failed. Aborting!");
+        blinkLeds(10, 100);
         return false;
     }
 }
