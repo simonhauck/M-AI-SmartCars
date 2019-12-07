@@ -25,6 +25,7 @@ class BaseConfig(object):
     LED_STRIPE_ORDER = neopixel.GRB
     LED_STRIPE_SIZE = 60
     LED_STRIPE_MODE = 0
+    SERVO_MOTOR_PINS = [26, 19, 13, 6]
 
 
 class DevelopmentConfig(BaseConfig):

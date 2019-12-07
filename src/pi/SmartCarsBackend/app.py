@@ -6,6 +6,7 @@ from flask import Flask, request
 
 from car_service.vehicle_service import VehicleService
 from hardware.led_stripe import LedStripe
+from hardware.servo_motors import ServoMotors
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ app.config.from_object('config.DevelopmentConfig')
 with app.app_context():
     car_service = VehicleService()
     led_stripe = LedStripe()
+    servo_motors = ServoMotors()
 
 
 def loop() -> None:
@@ -35,6 +37,7 @@ def loop() -> None:
     #     "Total Amount Entries: {}, Current Pollution: {}".format(total_amount_entries, current_pollution))
 
     led_stripe.set_led_stripe(current_pollution)
+    servo_motors.set_servo_motors(current_pollution)
 
     # TODO Add hardware and clean log
     # app.logger.info("Add here hardware functionality")
