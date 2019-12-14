@@ -17,7 +17,7 @@ bool useSerial = true;
 
 //Pins
 const int ledPin1 = 2;
-const int ledPin2 = 4;
+const int ledPin2 = 5;
 const int hallSensorPin = 6;
 
 //Network ssid and password
@@ -61,6 +61,9 @@ void setup() {
 
     //Initialize Serial
     useSerial = initializeSerial(useSerial, 2500);
+
+    PRINTF("Vehicle type: ");
+    PRINTLN(vehicleType);
 
     if (!checkWifi()) {
         while (true) {};
