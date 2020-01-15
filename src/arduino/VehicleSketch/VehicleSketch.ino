@@ -32,7 +32,7 @@ const byte vehicleType = 1;
 //Backend ip
 const char backendIp[] = "192.168.4.1";
 const unsigned int backendPort = 5000;
-const unsigned long messageDelay = 1000;
+const unsigned long messageDelay = 50;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Variables
