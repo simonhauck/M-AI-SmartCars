@@ -29,9 +29,11 @@ class LedStripe:
         :param current_pollution_grade: the current absolute pollution grade
         :return: None
         """
-        if self.led_stripe_mode == 1:
+        if self.led_stripe_mode == 0:
             self.__fade_lights(current_pollution_grade)
         # TODO Add other led stripe modes
+        elif self.led_stripe_mode == 1:
+            self.__mixed_lights(current_pollution_grade)
         else:
             self.__fade_lights(current_pollution_grade)
 
@@ -49,3 +51,21 @@ class LedStripe:
         # logging.info("Led Stripe Relative Pollution: {}".format(relative_pollution))
         self.pixels.fill((relative_pollution, 255 - relative_pollution, 0))
         self.pixels.show()
+
+    def __mixed_lights(self, current_pollution_grade) -> None:
+        # 53 /52 are the middle leds
+        relative_pollution = utils.calculate_pollution_grade(current_pollution_grade,
+                                                             30,
+                                                             self.max_pollution,
+                                                             self.min_pollution)
+
+        log.info("Hello")
+        for i in range(30):
+            if relative_pollution <= i:
+                color = (relative_pollution, 255 - relative_pollution, 0)
+            else:
+                color = (255, 0, 0)
+
+            self.pixels[(52 + i) % 60] = color
+            self.pixels[(51 - i) % 60] = color
+            self.pixels.show()
