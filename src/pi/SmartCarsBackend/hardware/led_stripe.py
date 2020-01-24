@@ -19,6 +19,8 @@ class LedStripe:
                                         auto_write=False,
                                         pixel_order=app.config['LED_STRIPE_ORDER'])
         self.led_stripe_mode = app.config['LED_STRIPE_MODE']
+        self.led_stripe_size = app.config['LED_STRIPE_SIZE']
+        self.led_stripe_center_right = app.config['LED_STRIPE_CENTER_LED_RIGHT']
         self.max_pollution = app.config['MAX_POLLUTION']
         self.min_pollution = app.config['MIN_POLLUTION']
 
@@ -31,9 +33,9 @@ class LedStripe:
         """
         if self.led_stripe_mode == 0:
             self.__fade_lights(current_pollution_grade)
-        # TODO Add other led stripe modes
         elif self.led_stripe_mode == 1:
             self.__mixed_lights(current_pollution_grade)
+        # TODO Add other led stripe modes
         else:
             self.__fade_lights(current_pollution_grade)
 
@@ -53,19 +55,34 @@ class LedStripe:
         self.pixels.show()
 
     def __mixed_lights(self, current_pollution_grade) -> None:
-        # 53 /52 are the middle leds
-        relative_pollution = utils.calculate_pollution_grade(current_pollution_grade,
-                                                             30,
-                                                             self.max_pollution,
-                                                             self.min_pollution)
+        """
+        Mixed mode for the led stripe. Corresponding to the relative pollution the leds will turn red.
+        The leds that will not turn red will fade to red according to the relative pollution (This is because green is
+        mich more dominant and will not drastically.
+        :param current_pollution_grade: the current pollution
+        :return: None
+        """
+        # Relative pollution with half the amount of led's that will turn red
+        relative_pollution_switch = utils.calculate_pollution_grade(current_pollution_grade,
+                                                                    self.led_stripe_size / 2,
+                                                                    self.max_pollution,
+                                                                    self.min_pollution)
 
-        log.info("Hello")
+        # Relative pollution to fade the remaining led's
+        relative_pollution_fade = utils.calculate_pollution_grade(current_pollution_grade,
+                                                                  255,
+                                                                  self.max_pollution,
+                                                                  self.min_pollution)
+
         for i in range(30):
-            if relative_pollution <= i:
-                color = (relative_pollution, 255 - relative_pollution, 0)
+            if relative_pollution_switch <= i:
+                # Fade Led between red and green
+                color = (relative_pollution_switch, 255 - relative_pollution_fade, 0)
             else:
+                # Set led to red
                 color = (255, 0, 0)
 
-            self.pixels[(52 + i) % 60] = color
-            self.pixels[(51 - i) % 60] = color
+            # Set always two led on the left and right side
+            self.pixels[(self.led_stripe_center_right + i) % 60] = color
+            self.pixels[(self.led_stripe_center_right - 1 - i) % 60] = color
             self.pixels.show()
