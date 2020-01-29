@@ -19,8 +19,8 @@ See our video for a demonstration... (not yet done)
 ### The vehicles
 The vehicles are 3D-printed, and contain each an [Arduino MKR 1010 Wifi](https://store.arduino.cc/arduino-mkr-wifi-1010), 
 as well as an hall sensor (to be specific the SS 441A), a 3.7V lipo battery and a boost converter. The last one is 
-required because the sensor requires 3.7V and with the battery the arduino delivers only 3.3V (even from the 5V pin).
-Furthermore the vehicles contain two visible LEDs to act as headlights and indicators for the state of the arduino 
+required because the sensor requires 3.7V and with the battery connected the arduino delivers only 3.3V (even from the 5V pin).
+Furthermore the vehicles contains two visible LEDs to act as headlights and indicators for the state of the arduino 
 (Two in one :D).
 The arduino connects on startup to a wireless network of the raspberry pi, that will be used to control the tree. More
 on that later. The hall sensor detects if the vehicle is moving and sends the amount of ticks to the raspberry pi.
@@ -38,11 +38,11 @@ the servo motors. The led stripe is light up, with red and green according to th
 
 ## Structure of the repository
 The for you probably most import folder is the src folder. This one contains
-1. The 2d folder contains the .dxf file to create the tree and the box with the laser cutter
+1. The 2d folder contains the .dxf file to create the tree and the box with a laser cutter
 2. The 3d folder contains the models for the car and the bus. Note that we did some follow up manual work to screw 
 both parts together and mount the sensor.
 3. The arduino folder contains the wiring diagram and the sketch for the arduino
-4. the and pi folder contains, (i think you could have guessed that) the wiring diagram and the python files.
+4. And the pi folder contains, (i think you could have guessed that) the wiring diagram and the python files.
 The development server can be started with 
 ```python
 sudo flask run --host=0.0.0.0
