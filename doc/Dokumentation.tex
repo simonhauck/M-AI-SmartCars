@@ -1,0 +1,74 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{float}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{amsthm}
+\usepackage{geometry} 
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{authblk}
+\usepackage{import}
+\usepackage{subfiles}
+
+\lstloadlanguages{Python}
+
+    \definecolor{bluekeywords}{rgb}{0,0,1}
+    \definecolor{greencomments}{rgb}{0,0.5,0}
+    \definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+    \definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+    \definecolor{types}{rgb}{0.17,0.57,0.68}
+
+    \lstset{language=Python,
+        captionpos=b,
+        frame=lines,
+        showspaces=false,
+        showtabs=false,
+        breaklines=true,
+        showstringspaces=false,
+        breakatwhitespace=true,
+        escapeinside={(*@}{@*)},
+        commentstyle=\color{greencomments},
+        morekeywords={partial, var, value, get, set},
+        keywordstyle=\color{bluekeywords},
+        stringstyle=\color{redstrings},
+        basicstyle=\ttfamily\small,
+    }
+\begin{document}
+\pagenumbering{arabic}
+\begin{titlepage}
+    \begin{center}
+        {\LARGE\bfseries Hochschule Flensburg \par}
+        \vspace{0.5cm}
+        {\huge\bfseries SmartCars\par}
+        \vspace{0.5cm}
+        {\LARGE\bfseries Maker's Lab - Things that Think \par}
+        \vspace{0.25cm}
+        {\LARGE Abschlussbericht\par}
+        \vspace{2cm}
+        {\Large vorgelegt von: \par}
+        \vspace{1cm}
+        {\bfseries 1 \hfill \bfseries 2\par}
+        { 123456 \hfill  654321\par}
+        { Hochschule Flensburg \hfill Hochschule Flensburg \par}
+        { mail \hfill  mail\par}
+        \vfill
+        \vfill
+    
+    % Bottom of the page
+        {\large \today\par}
+    \end{center}
+\end{titlepage}
+    \clearpage
+    \thispagestyle{empty}
+
+    \tableofcontents
+    \pagebreak
+    %
+
+    
+\end{document}
