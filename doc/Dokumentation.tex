@@ -16,34 +16,34 @@
 \usepackage{subfiles}
 
 \lstloadlanguages{Python}
+\definecolor{bluekeywords}{rgb}{0,0,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.64,0.08,0.08}
+\definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
+\definecolor{types}{rgb}{0.17,0.57,0.68}
 
-    \definecolor{bluekeywords}{rgb}{0,0,1}
-    \definecolor{greencomments}{rgb}{0,0.5,0}
-    \definecolor{redstrings}{rgb}{0.64,0.08,0.08}
-    \definecolor{xmlcomments}{rgb}{0.5,0.5,0.5}
-    \definecolor{types}{rgb}{0.17,0.57,0.68}
-
-    \lstset{language=Python,
-        captionpos=b,
-        frame=lines,
-        showspaces=false,
-        showtabs=false,
-        breaklines=true,
-        showstringspaces=false,
-        breakatwhitespace=true,
-        escapeinside={(*@}{@*)},
-        commentstyle=\color{greencomments},
-        morekeywords={partial, var, value, get, set},
-        keywordstyle=\color{bluekeywords},
-        stringstyle=\color{redstrings},
-        basicstyle=\ttfamily\small,
-    }
+\lstset{language=Python,
+    captionpos=b,
+    frame=lines,
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    morekeywords={partial, var, value, get, set},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    basicstyle=\ttfamily\small,
+}
 \begin{document}
 \pagenumbering{arabic}
 \begin{titlepage}
     \begin{center}
+        \vspace{3cm}
         {\LARGE\bfseries Hochschule Flensburg \par}
-        \vspace{0.5cm}
+        \vspace{1.5cm}
         {\huge\bfseries SmartCars\par}
         \vspace{0.5cm}
         {\LARGE\bfseries Maker's Lab - Things that Think \par}
@@ -52,10 +52,10 @@
         \vspace{2cm}
         {\Large vorgelegt von: \par}
         \vspace{1cm}
-        {\bfseries 1 \hfill \bfseries 2\par}
-        { 123456 \hfill  654321\par}
+        {\bfseries 1 \hfill \bfseries Nils Jensen\par}
+        { 123456 \hfill  670758\par}
         { Hochschule Flensburg \hfill Hochschule Flensburg \par}
-        { mail \hfill  mail\par}
+        { mail \hfill  nils.jensen2@stud.hs-flensburg.de\par}
         \vfill
         \vfill
     
@@ -69,39 +69,75 @@
     \tableofcontents
     \pagebreak
     % Einleitung
+    \subfile{parts/introduction/introduction.tex}    
         % Motivation
+        \subfile{parts/introduction/motivation.tex}
         % Projektidee (Schwammprototyp)
+        \subfile{parts/introduction/idea.tex}
     % Konzept
+    \subfile{parts/concept/concept.tex}
         % Umsetzung
+        \subfile{parts/concept/execution.tex}
         % etc
+        % TODO maybe
     % Komponenten
+    \subfile{parts/components/components.tex}
         % Hardware
+        \subfile{parts/components/hardware.tex}
         % Software
+        \subfile{parts/components/software.tex}
         % Werkzeuge
+        \subfile{parts/components/tools.tex}
     % 1. Iteration                          flieder
+    \subfile{parts/iteration1/iteration.tex}
         % Auto
+        \subfile{parts/iteration1/cars.tex}
         % Elektronik
+        \subfile{parts/iteration1/hardware.tex}
         % Software
+        \subfile{parts/iteration1/software.tex}
         % Darstellung 
+        \subfile{parts/iteration1/visualization.tex}
         % Lessons Learned / Ergebnis
+        \subfile{parts/iteration1/iteration_result.tex}
     % 2. Iteration                          transparent
+        \subfile{parts/iteration2/iteration.tex}
         % Auto
+        \subfile{parts/iteration2/cars.tex}
         % Elektronik
+        \subfile{parts/iteration2/hardware.tex}
         % Software
+        \subfile{parts/iteration2/software.tex}
         % Darstellung 
+        \subfile{parts/iteration2/visualization.tex}
         % Lessons Learned / Ergebnis
+        \subfile{parts/iteration2/iteration_result.tex}
     % 3. Iteration                          gelb
+    \subfile{parts/iteration3/iteration.tex}
         % Auto
+        \subfile{parts/iteration3/cars.tex}
         % Elektronik
+        \subfile{parts/iteration3/hardware.tex}
         % Software
+        \subfile{parts/iteration3/software.tex}
         % Darstellung 
+        \subfile{parts/iteration3/visualization.tex}
         % Lessons Learned / Ergebnis
+        \subfile{parts/iteration3/iteration_result.tex}
     % 4. Iteration                          gemischt
+    \subfile{parts/iteration4/iteration.tex}
         % Auto
+        \subfile{parts/iteration4/cars.tex}
         % Elektronik
+        \subfile{parts/iteration4/hardware.tex}
         % Software
+        \subfile{parts/iteration4/software.tex}
         % Darstellung 
+        \subfile{parts/iteration4/visualization.tex}
         % Lessons Learned / Ergebnis
+        \subfile{parts/iteration4/iteration_result.tex}
     % Ergebnis
+    \subfile{parts/result/result.tex}
     % Ausblick 
+    \subfile{parts/outlook/outlook.tex}
 \end{document}
