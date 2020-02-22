@@ -1,4 +1,13 @@
+% !TeX spellcheck = de_DE
 \documentclass[.../Dokumentation.tex]{subfiles}
 \begin{document}
-    \subsection{Hardware}\label{sec-ita2-hardware}
+    \subsection{Hard- und Software}\label{sec-ita2-hardware}
+    Weitere Nachforschungen haben ergeben, dass der $Output$ Pin des Hall Sensor mit einem $1k\ \Omega$  Widerstand an den $3.3V$ sowie den gewählten IO-Pin angeschlossen wird. Das neue Diagramm ist in Abbildung xy dargestellt. \\
+    %TODO Abbildung 
+    Mit dieser Schaltung funktioniert das Auslesen des Sensors ohne Probleme und der Sensor erkennt Magnete mit einer maximalen Distanz von ca. $1 cm$. Die Magnete müssen sich hierfür direkt vor dem Sensor befinden. Somit ist es möglich, mehrere Magnete in den Reifen des Fahrzeugs unterzubringen. Mit mehreren Magneten ist ein genaueres Messen der zurückgelegten Strecke möglich. Zusätzlich werden die LEDs, welche als Scheinwerfer verwendet an je einen eigenen IO-Pin angeschlossen. Die LEDs können einzeln angesteuert werden. Dies wird genutzt um Statusinformationen auszugeben, wie zum Beispiel wenn der Controller sich mit dem Wlan Netzwerk verbindet oder Fehler beim Sendern der Daten auftreten. Somit ist ein leichteres Erkennen von Fehlern möglich.\\
+    Mit der Funktionierenden Hardware wird das komplette Programm entworfen. Eine Änderung des Hall Sensors wird durch einen Interrupt erkannt. Somit gehen keine Messerwerte verloren, auch wenn der Arduino eine lange Aktion wie das Senden ausführt.\\
+    Der Arduino wartet eine Zeit $x$ ab, welche abhängig von der Konfiguration ist. Danach überprüft er, ob das Fahrzeug sich bewegt hat und Messwerte vorliegen. Ist dies der Fall werden diese in ein JSON Objekt kodiert und anschließend an die Visualisierung gesendet. Liegen mehrere Messwerte vor, werden diese kombiniert. Zusätzlich enthält die Nachricht den Fahrzeugtyp. Dieser kann verwendet werden um die erzeugten Emissionen zu berechnen.\\
+    Zum Senden der Daten wird das integrierte WLAN Modul verwendet. Mit diesem und den erfassten Daten wird ein Post-Request durchgeführt.\\
+   	Ist das Senden erfolgreich, startet der Vorgang erneut. Verliert der Arduino die Verbindung zum WLAN, versucht er diese wiederherzustellen und zeigt dies durch ein abwechselndes Blinken der LEDs. In dieser Zeit werden alle vom Sensor erfassten Daten ignoriert. Scheitert der Sendevorgang wird über die LEDs ein schnelles  Blinken abgegeben und mit dem Programm wird normal fortgefahren. Bei weiteren erfassten Daten, wird ein neuer Versuch gestartet.
+
 \end{document}
