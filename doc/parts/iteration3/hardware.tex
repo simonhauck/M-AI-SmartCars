@@ -1,5 +1,13 @@
+% !TeX spellcheck = de_DE
 \documentclass[.../Dokumentation.tex]{subfiles}
 \begin{document}
-    \subsection{Hard- und Software}\label{sec-ita3-hardware}
+    \subsection{Hard- und Software}
+    \label{sec-ita3-hardware}
+    Die erste funktionsfähige Fahrzeugsoftware bildet die Grundlage für die Implementation der Visualisierung. Die Basis hierfür ist das Webframework \emph{Flask}. Mit diesem wird eine REST-Schnittstelle entworfen, welche die gesendeten Fahrzeugdaten empfängt. \\
+    In einer Konfigurationsdatei werden die verschiedenen Fahrzeugtypen und die zugehörigen Fahrzeugeigenschaften gespeichert. Die Eigenschaften umfassen eine eindeutige ID, den Namen des Typs, den Radius der Räder, die Anzahl an Magneten in diesen und die verursachte Verschmutzung pro gefahrenem Zentimeter. Somit muss der Programmcode auch bei zukünftigen Änderungen nicht angepasst werden und verschiedene Fahrzeugtypen können abgebildet werden.\\
+    Wenn ein Fahrzeug sich bewegt, sendet es die Anzahl an erfassten Magnetkontakten und die ID des Fahrzeugs an den Raspberry Pi.\\
+    Dieser berechnet in einem ersten Schritt die gefahrene Strecke mit: $$strecke_{gefahren}=\frac{2 \cdot \Pi \cdot  radius_{Rad}}{Magnete \: in \: einem \: Rad}$$ Mit dem Ergebnis wird die verursachte Verschmutzung berechnet: mit $$Verschmutzung = strecke_{gefahren} \cdot Verschmutzung/cm \cdot Anzahl \: Magnet \: Kontakte$$
+   	Die berechnetet Verschmutzung wird mit einem Zeitstempel abgespeichert.
+    
     
 \end{document}
