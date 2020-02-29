@@ -1,14 +1,36 @@
 % !TeX spellcheck = de_DE
 \documentclass[.../Dokumentation.tex]{subfiles}
 \begin{document}
-    \subsection{Hardware}\label{sec-components-hardware}
-    Das Projekt besteht aus zwei Teilen, den Fahrzeugen und der Visualisierung, für welche die benötigte Hardware in diesem Kapitel vorgestellt wird. Die vorgestelltem Komponenten beziehen sich dabei auf das Konzept und ändern sich im Verlauf des Projektes.\\~\\
-    \subsubsection{Fahrzeuge}
-%	Die Hardware für die Fahrzeuge wird mit folgenden Anforderungen ausgewählt: Das Fahrzeug soll klein und kompakt sein, sodass auch kleine Kinder mit diesem spielen können. Die Elektronik des Fahrzeugs soll über einen wiederaufladbaren Akku betrieben werden. Somit ist kein ständiger Batteriewechsel nötig und es behindern keine Kabel das Spielvergnügen. Das Fahrzeug soll die gefahrene Distanz selbstständig erfassen können und hierfür keine externe Hardware, wie zum Beispiel Kameras, benötigen. Der Aufbau soll unkompliziert und schnell sein. Insgesamt soll der Prototyp eine Plug\&Play Erfahrung bieten.\\
-	Dies Basis für die Fahrzeuge sollen Microcontroller sein. Diese benötigen sehr wenig Strom und ermöglichen so ein längeres Spielvergnügen. Für die Fahrzeuge soll der Arduino MKR Wifi 1010 verwendet werden. Dieser ist ca. 62mm lang und 25mm breit und somit bedeutend kleiner als der Arduino Uno. Zusätzlich ist der Arduino besonders for IoT Projekte geeignet, da ein Low Power Prozessor (SAMD21) verwendet wird. Das Board besitzt zudem eine integrierte Ladeschaltung und einen Anschluss für einen Lithium polymer Akku. Hierfür wird ein Modell mit einer Kapazität von 1000mAh verwendet, welcher einen Kompromiss zwischen Größe des Akkus und dem Formfaktor bietet. Des weiteren besitzt der verwendete Arduino ein interagiertes Wifi Modul, welches zu späteren Kommunikation mit der Visualisierung verwendet wird. \\
-	Neben dem Microcontroller wird jedes Fahrzeug mit ein paar Magneten und einem Hall Sensor ausgestattet. Der Hall Sensor gibt ein Signal an den Arduino, wenn ein Magnet sich in dessen Nähe befindet. Diese werden später zur Erkennung von Radumdrehungen verwendet. Zuletzt werden zwei LEDs mit den dazugehörigen Widerständen als Scheinwerfer verwendet.
-	
-	\subsubsection{Visualisierung}
-	Die Basis für die Visualisierung soll ein Raspbbery Pi 4 sein. An diesen kann ein Display angeschlossen werden, welches später die erfassten Daten aufbereitet anzeigt. Der Raspberry Pi fungiert zusätzlich als WLAN \textit{Access Point}. Die in den Fahrzeugen verwendeten Arduinos können sich direkt mit diesem verbinden und somit ist kabellose Übertragung der Daten gewährleistet. Dieser Aufbau hat den weiteren Vorteil, dass keine weitere Hardware, wie zum Beispiel ein Router zwischen den Komponenten, benötigt wird.
-	
+\subsection{Hardware}\label{sec-components-hardware}
+Das Projekt besteht aus zwei Teilen, den Fahrzeugen und der Visualisierung.
+Die hierfür benötigte Hardware soll im Folgenden vorgestellt werden.
+Die genannten Komponenten beziehen sich auf das Konzept, welches in Abschnitt 
+\ref{sec-concept} vorgestellt wurde.
+\subsubsection{Fahrzeuge}
+Die Basis für die Fahrzeuge sollen Microcontroller sein. Diese benötigen sehr 
+wenig Strom und ermöglichen so ein längeres Spielvergnügen. 
+Für die Fahrzeuge soll der Arduino MKR Wifi 1010 verwendet werden. Dieser ist 
+ca. 62mm lang und 25mm breit und somit bedeutend kleiner als der Arduino Uno. 
+Zusätzlich ist der Arduino besonders for IoT Projekte geeignet, da ein Low 
+Power Prozessor (SAMD21) verwendet wird. Das Board besitzt zudem eine 
+integrierte Ladeschaltung und einen Anschluss für einen Lithium-Polymer-Akku. 
+Hierfür wird ein Modell mit einer Kapazität von 1000mAh verwendet, welches 
+einen Kompromiss zwischen Größe des Akkus und dem Formfaktor bietet. Des 
+Weiteren besitzt der verwendete Arduino ein integriertes Wifi Modul, welches 
+später zur Kommunikation mit der Visualisierung verwendet wird. \\
+Neben dem Microcontroller wird jedes Fahrzeug mit einem Paar Magneten und einem 
+Hall-Sensor ausgestattet. Der Hall-Sensor gibt ein Signal an den Arduino, 
+wenn ein Magnet sich in dessen Nähe befindet. Diese werden später zur Erkennung 
+von Radumdrehungen verwendet. Zuletzt werden zwei LEDs mit den dazugehörigen 
+Widerständen als Scheinwerfer verwendet.
+
+\subsubsection{Visualisierung}
+Die Basis für die Visualisierung soll ein Raspbbery Pi 4 sein. An diesen kann 
+ein Display angeschlossen werden, welches später die erfassten Daten 
+aufbereitet anzeigt. Der Raspberry Pi fungiert zusätzlich als WLAN 
+\textit{Access Point}. Die in den Fahrzeugen verwendeten Arduinos können sich 
+direkt mit diesem verbinden und somit ist die kabellose Übertragung der Daten 
+gewährleistet. Dieser Aufbau hat den Vorteil, dass keine weitere 
+Hardware, wie zum Beispiel ein Router zwischen den Komponenten, benötigt wird.
+
 \end{document}
