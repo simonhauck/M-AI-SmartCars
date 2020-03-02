@@ -2,9 +2,13 @@
 \documentclass[.../Dokumentation.tex]{subfiles}
 \begin{document}
     \subsection{Hardware}\label{sec-ita4-hardware}
-    \subsubsection*{Visualisierung}
-    %Platine, LED Streifen, %
-    
+        \subsubsection*{Visualisierung}
+    %Platine, LED Streifen, Autostart %
+    Der Programmcode und die benötigte Hardware für die Visualisierung funktionieren bereits, trotzdem müssen noch kleine Optimierungen vorgenommen werden. Zuerst wird die Funktionsweise des LED-Streifens überarbeitet. Zuvor haben alle LEDs dieselbe Farbe angezeigt, welche sich aus Rot und Grün zusammensetzt. Die Farbe Grün ist viel dominanter, sodass die LEDs auch bei mittlerer Verschmutzung noch die Farbe grün anzeigen. Erst bei starker Verschmutzung färben sie sich orange und danach rot. Mit der neuen Implementierung zeigen die LEDs unterschiedliche Werte an. Je nach Verschmutzungsgrad färbt sich ein Teil der LEDs rot (Abbildung xy). Ist die maximale Verschmutzung erreicht, sind alle LEDs rot. Hierdurch wird die gesamte Verschmutzung eindeutig dargestellt\\
+    %TODO abbildung%
+    Im nächsten Schritt wird noch eine Platine für den Raspberry Pi erstellt. Diese kann wie ein Shield auf die Pins gesteckt werden und die Servo Motoren sowie der LED-Streifen können direkt angeschlossen werden. Dies reduziert die Anzahl an benötigten Kabeln und erhöht die Übersichtlichkeit.\\
+    Zuletzt wird die Konfiguration des Raspberry Pi überarbeitet. Der Flask-Webserver soll automatisch mit jedem hochfahren des Systems gestartet werden. Somit muss, wie auch bei den Fahrzeugen, nur die Stromversorgung hergestellt werden, um den Prototypen zu benutzen.
+        
     \subsubsection*{Fahrzeug}
     Für die voll funktionsfähige und getestete Schaltung muss eine Prototyp Platine erstellt werden. Die Basisplatine hat dieselbe Größe wie der Arduino. Somit kann die fertige Platine wie ein Shield auf den Arduino gesteckt werden und verbraucht wenig Platz. Durch den begrenzten Platz muss das Layout vorher geplant werden. Eine Skizze hierfür ist in Abbildung xy dargestellt. %TODO abbildung%
     Die fertige Platine kann auf den Arduino gesteckt werden, welcher zusammen mit dem Akku, dem $Step-Up Boost-Converter$, dem Sensor und den LEDs in das Auto verbaut werden kann. Zusätzlich wird ein Schalter eingebaut, mit welchem die Batterie einfach an- beziehungsweise ausgeschaltet werden kann. Somit muss nicht die Batterie von Hand aufgesteckt werden.
