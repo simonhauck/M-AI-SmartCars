@@ -1,4 +1,15 @@
+% !TeX spellcheck = de_DE
 \documentclass[.../Dokumentation.tex]{subfiles}
 \begin{document}
     \subsection{Hardware}\label{sec-ita4-hardware}
+    \subsubsection*{Visualisierung}
+    %Platine, LED Streifen, %
+    
+    \subsubsection*{Fahrzeug}
+    Für die voll funktionsfähige und getestete Schaltung muss eine Prototyp Platine erstellt werden. Die Basisplatine hat dieselbe Größe wie der Arduino. Somit kann die fertige Platine wie ein Shield auf den Arduino gesteckt werden und verbraucht wenig Platz. Durch den begrenzten Platz muss das Layout vorher geplant werden. Eine Skizze hierfür ist in Abbildung xy dargestellt. %TODO abbildung%
+    Die fertige Platine kann auf den Arduino gesteckt werden, welcher zusammen mit dem Akku, dem $Step-Up Boost-Converter$, dem Sensor und den LEDs in das Auto verbaut werden kann. Zusätzlich wird ein Schalter eingebaut, mit welchem die Batterie einfach an- beziehungsweise ausgeschaltet werden kann. Somit muss nicht die Batterie von Hand aufgesteckt werden.
+    Alle Verbindungen zwischen den Komponenten sind mit JST-Steckern realisiert. Dies ermöglicht es, jede Komponente einzeln austauschen, sollte ein Teil defekt sein oder für ein anderes Projekt wiederverwendet werden. Zudem wird so das Zusammensetzen der Fahrzeuge erleichtert, da einige Komponenten wie die LEDs fest in diesen verklebt sind.\\
+    Zuletzt wird noch die Konfiguration der Fahrzeuge optimiert. Zuvor haben die Fahrzeuge jede Sekunde 1 mal die erfassten Sensordaten gesendet. Da die durschnittliche Ausführungszeit der \emph{loop}-Funktion bei ca. 100ms liegt, wird dieser Wert auf $250ms$ Sekunden reduziert. Die Fahrzeuge senden häufiger Daten und die Animation bei der Visualisierung werden infolgedessen weicher.
+    
+
 \end{document}
