@@ -3,8 +3,17 @@
 \begin{document}
     \subsection{Hard- und Software}\label{sec-ita2-hardware}
     \subsubsection*{Fahrzeug}
-    Weitere Nachforschungen bezüglich der Fahrzeugschaltung haben ergeben, dass der $Output$ Pin des Hall Sensor mit einem $1k\ \Omega$  Widerstand an den $3.3V$ sowie den gewählten IO-Pin angeschlossen werden muss. Das neue Diagramm ist in Abbildung xy dargestellt. \\
-    %TODO Abbildung 
+    Weitere Nachforschungen bezüglich der Fahrzeugschaltung haben ergeben, dass der $Output$ Pin des Hall Sensor mit einem $1k\ \Omega$  Widerstand an den $3.3V$ sowie den gewählten IO-Pin angeschlossen werden muss. Das neue Diagramm ist in \autoref{fig-hardware-car-iteration2} dargestellt.
+       	\begin{figure}[H]
+    	\begin{center}
+    		\includegraphics[
+    		width=0.7\linewidth,
+    		]{imgs/car_wiring_iteration3.png}
+    		\caption{Schaltung für die Fahrzeuge in Iteration 2}
+    		\label{fig-hardware-car-iteration2}
+    	\end{center}
+    \end{figure}
+    \noindent
     Mit dieser Schaltung funktioniert das Auslesen des Sensors ohne Probleme. Die maximale Distanz, bis zu welcher Magnete erkannt werden können beträgt ca. $1 cm$. Die Magnete müssen sich hierfür direkt vor dem Sensor befinden. Somit ist es möglich, mehrere Magnete in den Reifen des Fahrzeugs unterzubringen, was eine genauere Messung der zurückgelegten Strecke ermöglicht. Zusätzlich werden die LEDs, welche als Scheinwerfer verwendet werden an je einen eigenen IO-Pin angeschlossen. Somit können diese einzeln angesteuert werden. Diese Eigenschaft wird genutzt um Statusinformationen auszugeben, wie zum Beispiel wenn der Controller sich mit dem Wlan Netzwerk verbindet oder Fehler beim Sendern der Daten auftreten. Somit ist ein leichtes Erkennen von Fehlern möglich, auch wenn das Fahrzeug nicht per USB-Kabel an einen PC angeschlossen ist.\\
     Mit der funktionierenden Hardware wird das komplette Programm entworfen. Eine Änderung des Signals vom Hall Sensor wird durch einen Interrupt erkannt. Somit gehen keine Messerwerte verloren, auch wenn der Arduino eine lange Aktion, wie das Senden von Daten, ausführt.\\
     Der Arduino wartet eine Zeit $x$ ab, welcher von der Konfiguration abhängt. Danach überprüft er, ob das Fahrzeug sich bewegt hat und Messwerte vorliegen. Ist dies der Fall werden diese in ein JSON Objekt kodiert und anschließend an die Visualisierung gesendet. Liegen mehrere Messwerte vor, werden diese kombiniert. Neben den Messwerten enthalten die Nachrichten zusätzlich den Fahrzeugtyp. Dieser wird für die Berechnung der erzeugten Emissionen verwendet.\\
