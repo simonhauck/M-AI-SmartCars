@@ -9,18 +9,22 @@ Die genannten Komponenten beziehen sich auf das Konzept, welches in Kapitel
 \subsubsection{Fahrzeuge}
 Die Basis für die Fahrzeuge sollen Microcontroller sein. Diese benötigen 
 wenig Strom und ermöglichen so ein längeres Spielvergnügen. 
-Für die Fahrzeuge soll der Arduino MKR Wifi 1010 verwendet werden. Dieser ist 
+Für die Fahrzeuge soll der Arduino MKR Wifi 1010 verwendet %TODO check wifi oder WiFi % 
+werden. Dieser ist 
 ca. 62mm lang und 25mm breit und somit bedeutend kleiner als der Arduino Uno. 
 Zusätzlich ist der Arduino besonders für IoT Projekte geeignet, da ein Low 
 Power Prozessor (SAMD21) verwendet wird. Das Board besitzt zudem eine 
 integrierte Ladeschaltung und einen Anschluss für einen Lithium-Polymer-Akku. 
 Hierfür wird ein Modell mit einer Kapazität von 1000mAh verwendet, welches 
-einen Kompromiss zwischen Größe des Akkus und dem Formfaktor bietet. Des 
-weiteren besitzt der verwendete Arduino ein integriertes Wifi Modul, welches 
+einen Kompromiss zwischen der Größe des Akkus und dem Formfaktor bietet. 
+% TODO des weiteren Weiteren überpüfen%
+Des 
+weiteren besitzt der verwendete Arduino ein integriertes Wifi-Modul, welches 
+%TODO check wifi oder WiFi % 
 später zur Kommunikation mit der Visualisierung verwendet wird. \\
 Neben dem Microcontroller wird jedes Fahrzeug mit einem oder mehreren Magneten sowie einem 
 Hall-Sensor ausgestattet. Der Hall-Sensor gibt ein Signal an den Arduino, 
-wenn ein Magnet sich in dessen Nähe befindet. Diese werden später zur Erkennung 
+wenn sich ein Magnet in dessen Nähe befindet. Diese werden später zur Erkennung 
 von Radumdrehungen verwendet. Zuletzt werden zwei LEDs mit den dazugehörigen 
 Widerständen als Scheinwerfer verwendet.
 
@@ -29,8 +33,8 @@ Die Basis für die Visualisierung soll ein Raspbbery Pi 4 sein. An diesen kann
 ein Display angeschlossen werden, welches später die erfassten Daten 
 aufbereitet anzeigt. Der Raspberry Pi fungiert zusätzlich als WLAN 
 \textit{Access Point}. Die in den Fahrzeugen verwendeten Arduinos können sich 
-direkt mit diesem verbinden und somit ist die kabellose Übertragung der Daten 
-gewährleistet. Dieser Aufbau hat den Vorteil, dass keine weitere 
-Hardware, wie zum Beispiel ein Router zwischen den Komponenten, benötigt wird.
+direkt mit diesem verbinden womit die kabellose Übertragung der Daten 
+gewährleistet ist. Dieser Aufbau hat den Vorteil, dass keine weitere 
+Hardware wie zum Beispiel ein Router zwischen den Komponenten benötigt wird.
 
 \end{document}
