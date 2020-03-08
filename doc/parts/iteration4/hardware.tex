@@ -30,8 +30,7 @@
     	\end{center}
     \end{figure} 
 	\noindent
-    Die fertige Platine kann auf den Arduino gesteckt werden, welcher zusammen mit dem Akku, dem $Step-Up Boost-Converter$, dem Sensor und den LEDs in das Auto eingebaut wird. Zusätzlich ermöglicht ein Schalter das einfache An- beziehungsweise Ausschalten der Batterie.\\\\
-    Alle Verbindungen zwischen den Komponenten sind mit JST-Steckern realisiert. Hierdurch ist es möglich, jede Komponente einzeln auszutauschen, sollte ein Teil defekt sein oder für ein anderes Projekt wiederverwendet werden. Zudem wird so das Zusammensetzen der Fahrzeuge erleichtert, da einige Komponenten wie die LEDs fest verklebt sind.
+    Die fertige Platine kann auf den Arduino gesteckt werden, welcher zusammen mit dem Akku, dem \textit{Step-Up Boost-Converter}, dem Sensor und den LEDs in das Auto eingebaut wird. Zusätzlich ermöglicht ein Schalter das einfache An- beziehungsweise Ausschalten der Batterie. Alle Verbindungen zwischen den Komponenten sind mit JST-Steckern realisiert. Hierdurch ist es möglich, jede Komponente einzeln auszutauschen, sollte ein Teil defekt sein oder für ein anderes Projekt wiederverwendet werden. Zudem wird so das Zusammensetzen der Fahrzeuge erleichtert, da einige Komponenten wie die LEDs fest verklebt sind.
     Zuletzt wird noch die Konfiguration der Fahrzeuge optimiert. Zuvor haben diese jede Sekunde einmal mal die erfassten Sensordaten gesendet. Da die durchschnittliche Ausführungszeit der \emph{loop}-Funktion bei ca. 100ms liegt, wird dieser Wert auf $250ms$ Sekunden reduziert. Die Fahrzeuge senden häufiger Daten und die Bewegungen des Baums werden infolgedessen weicher.
     
 

@@ -11,7 +11,7 @@ ist herauszufinden, bis zu welchem Abstand der Sensor die Magneten erkennt und
 ob der Einsatz von mehreren Magneten in den Reifen möglich ist. Für den Sensor 
 steht nur Dokumentation im Rahmen eines Datenblattes zur Verfügung. Hierbei erweist es sich als schwierig, die Bedeutung der drei Pins zu 
 erkennen. Letztendlich stellt sich heraus, dass der linke Pin $+$, der 
-mittlere \textit{GND} und der rechte das $Output$ Signal ist.\\\\
+mittlere \textit{GND} und der rechte das $Output$ Signal ist.\\
 Beim Erstellen der Schaltung entsteht ein weiteres Problem. Der Sensor benötigt für den Betrieb mindestens $3.7V$. Somit muss der $+$-Pin an den $5V$ Pin des 
 Arduinos angeschlossen werden. Der $Output$-Pin liefert dementsprechend auch $5V$ muss mit einem IO-Pin des Arduinos verbunden werden, damit das 
 Signal von diesem eingelesen werden kann. Laut Datenblatt dürfen an die Pins maximal $3.3V$ angelegt werden, ansonsten droht eine Beschädigung des Arduinos.
@@ -28,6 +28,6 @@ Signal von diesem eingelesen werden kann. Laut Datenblatt dürfen an die Pins ma
 Mit einem Spannungsteiler, bestehend aus einem $1k\ \Omega$ und einem $2k\ \Omega$ Widerstand, können $5V$ 
 auf $3.3V$ runter-gesetzt werden. Zusätzlich soll ein 
 $10k\ \Omega$ Pull-Up Widerstand verwendet werden, welcher den verwendeten Pin 
-des Arduinos auf $HIGH$ setzt, solange kein Magnet erkannt ist. Die verwendete Schaltung ist in Abbildung \ref{fig-hardware-car-iteration1} dargestellt. 
-Hierbei werden zusätzlich zwei LEDs hinzugefügt, welche später als Scheinwerfer im Fahrzeug verwendet werden. Beim Testen der Schaltung wird festgestellt, dass die Kombination aus Pegelwandler und dem Pull-Up Widerstand nicht funktioniert und kein Auslesen von Sensorwerten möglich ist.
+des Arduinos auf \textit{HIGH} setzt, solange kein Magnet erkannt ist. Die verwendete Schaltung ist in Abbildung \ref{fig-hardware-car-iteration1} dargestellt. 
+Hierbei werden zusätzlich zwei LEDs hinzugefügt, welche später als Scheinwerfer im Fahrzeug verwendet werden. 
 \end{document}
