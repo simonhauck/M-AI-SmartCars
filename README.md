@@ -1,5 +1,5 @@
 # M-AI-SmartCars
-
+<img src="doc/imgs/final_image.jpeg" width= 500>
 This project is part of the course "Makers Lab - Things that think" at the Flensburg University of Applied Sciences. 
 We had the motto "Flensburg goes green" and should use various prototype techniques to develop a physical prototype 
 that should influence the behavior of the users to act more environmentally friendly.
@@ -11,8 +11,6 @@ Our project consist of two parts:
 Our goal was to show children, and also adults the effects of driving for the environment. 
 When the vehicles drive, the environment gets worse and the branches of the tree hang low. After a certain time the 
 environment gets better and the tree recovers. Of course the bus had a less bad influence then the car.
-
-See our video for a demonstration... (not yet done)
 
 ## How does it work?
 
