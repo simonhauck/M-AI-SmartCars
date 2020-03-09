@@ -1,5 +1,7 @@
 # M-AI-SmartCars
-<img src="doc/imgs/final_image.jpeg" width= 500>
+<p align="center">
+  <img src="doc/imgs/final_image.jpeg" width= 500>
+</p>
 This project is part of the course "Makers Lab - Things that think" at the Flensburg University of Applied Sciences. 
 We had the motto "Flensburg goes green" and should use various prototype techniques to develop a physical prototype 
 that should influence the behavior of the users to act more environmentally friendly.
